@@ -9,27 +9,27 @@ class Client():
     name: str
 
 @dataclass
-class Item():
+class Product():
     id: int
     name: str
     price: float
 
 @dataclass
 class Basket():
-    items: List[Item]
+    products: List[Product]
 
-    def add_item(self, item: Item):
-        self.items.append(item)
+    def add(self, product: Product):
+        self.products.append(product)
 
-    def remove_item(self, item: Item):
-        self.items.remove(item)
+    def remove(self, product: Product):
+        self.products.remove(product)
 
     def clear(self):
-        self.items = []
+        self.products = []
 
     @property
     def price(self) -> float:
-        return sum([item.price for item in self.items])
+        return sum([product.price for product in self.products])
 
 @dataclass
 class Order():
