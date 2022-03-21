@@ -1,39 +1,39 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
+from datetime import datetime
 
+
+@dataclass
+class Client():
+    id: int
+    name: str
+
+@dataclass
+class Item():
+    id: int
+    name: str
+    price: float
+
+@dataclass
+class Basket():
+    items: List[Item]
+
+    def add_item(self, item: Item):
+        self.items.append(item)
+
+    def remove_item(self, item: Item):
+        self.items.remove(item)
+
+    def clear(self):
+        self.items = []
+
+    @property
+    def price(self) -> float:
+        return sum([item.price for item in self.items])
 
 @dataclass
 class Order():
-    items: List[str]
-    complete: bool = False
-
-@dataclass
-class Deliverer():
-    order: Optional[Order] = None
-
-    def is_busy(self) -> bool:
-        return self.order is not None
-
-    def complete_order(self):
-        self.order.complete = True
-        self.order = None
-
-@dataclass
-class Store():
-    orders: List[Order]
-
-    def create_order(
-        self,
-        items: List[str],
-        available_deliverers: List[Deliverer]
-    ) -> Deliverer:
-        if len(available_deliverers) > 0:
-            raise Exception('Deliverers are not available!')
-
-        deliverer = available_deliverers[0]
-
-        order = Order(items)
-        self.orders.append(order)
-        deliverer.order = order
-
-        return deliverer
+    client: Client
+    basket: Basket
+    created_at: datetime
+    fulfilled: bool = False
